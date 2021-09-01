@@ -1,37 +1,37 @@
-package com.example.mytest.data
+package com.example.tvclient.data
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.TimeUnit
 
 abstract class Repository<T> {
     private var cache: T? = null
+    protected abstract val localData: () -> Flow<T>
     protected abstract val remoteData: suspend () -> Response<T>
 
-//    suspend fun getData() : Response<T> {
-//        if (cache != null)  {
-//            return Response.Success(cache!!)
-//        }
-//        val res = remoteData()
-//        if (res is Response.Success) {
-//            cache = res.data
-//        }
-//        return res
-//    }
+    protected abstract suspend fun updateLocalData(data: T)
 
-    suspend fun getData() : Flow<Response<T>> = flow {
-        if (cache != null) {
-            emit(Response.Success(cache!!))
-        } else {
+    private var updateTime = 0L
+
+    fun getData() : Flow<Response<T>> = flow {
             emit(Response.Loading)
+//            delay(3000)
 
-            val res = remoteData ()
-            if (res is Response.Success) {
-                cache = res.data
+            val curTime = System.currentTimeMillis()
+            if (curTime - updateTime > FRESH_TIMEOUT) {
+                val res = remoteData()
+                if (res is Response.Success) {
+                    updateLocalData(res.data)
+                    updateTime = curTime
+                }
             }
-            emit(res)
+            localData().collect {
+                emit(Response.Success(it))
+            }
         }
-    }.catch {
-        emit(Response.Error(it))
+
+    companion object {
+        private val FRESH_TIMEOUT = TimeUnit.HOURS.toMillis(1)  // an hour
     }
 }

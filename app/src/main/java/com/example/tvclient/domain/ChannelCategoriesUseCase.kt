@@ -1,10 +1,13 @@
-package com.example.mytest.domain
+package com.example.tvclient.domain
 
-import com.example.mytest.data.ChannelCategoryRepository
-import com.example.mytest.data.Response
+import com.example.tvclient.data.ChannelCategoryRepository
+import com.example.tvclient.data.Response
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ChannelCategoriesUseCase @Inject constructor(val repository: ChannelCategoryRepository) {
-    suspend fun getChannelCategoryList(): Flow<Response<List<ChannelCategory>>> = repository.getData()
+class ChannelCategoriesUseCase @Inject constructor(
+    private val repository: ChannelCategoryRepository
+) {
+    fun getChannelCategoryList(): Flow<Response<List<ChannelCategory>>> =
+        repository.getData()
 }

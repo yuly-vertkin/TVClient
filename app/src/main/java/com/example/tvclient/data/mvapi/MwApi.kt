@@ -1,6 +1,6 @@
-package com.example.mytest.data.mvapi
+package com.example.tvclient.data.mvapi
 
-import com.example.mytest.data.Response
+import com.example.tvclient.data.Response
 import com.google.gson.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,6 +37,7 @@ class MwApi @Inject constructor() {
         gsonBuilder.registerTypeHierarchyAdapter(InternalResponse::class.java, ResponseTypeDeserializer())
         return gsonBuilder.create()
     }
+
     suspend fun getChannelCategoryList(): Response<List<ChannelCategoryDto>> = convertResponse(apiService.getChannelCategoryList())
 
     private fun <T> convertResponse(r: InternalResponse<T>) =

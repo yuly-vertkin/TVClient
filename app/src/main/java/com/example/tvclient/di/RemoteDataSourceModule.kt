@@ -1,7 +1,7 @@
-package com.example.mytest.di
+package com.example.tvclient.di
 
-import com.example.mytest.data.DataSource
-import com.example.mytest.data.mvapi.MwDataSource
+import com.example.tvclient.data.RemoteDataSource
+import com.example.tvclient.data.mvapi.MwDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -9,10 +9,10 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataSourceModule {
+abstract class RemoteDataSourceModule {
 
     @Binds
     abstract fun bindDataSource(
         dataSourceImpl: MwDataSource
-    ): DataSource
+    ): RemoteDataSource
 }

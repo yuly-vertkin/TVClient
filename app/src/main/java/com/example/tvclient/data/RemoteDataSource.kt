@@ -1,6 +1,6 @@
-package com.example.mytest.data
+package com.example.tvclient.data
 
-import com.example.mytest.domain.ChannelCategory
+import com.example.tvclient.domain.ChannelCategory
 
 sealed class Response<out T> {
     object Loading: Response<Nothing>()
@@ -8,6 +8,6 @@ sealed class Response<out T> {
     data class Error(val error: Throwable): Response<Nothing>()
 }
 
-interface DataSource {
+interface RemoteDataSource {
     suspend fun getChannelCategoryList(): Response<List<ChannelCategory>>
 }

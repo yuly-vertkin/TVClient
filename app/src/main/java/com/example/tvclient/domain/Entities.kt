@@ -1,4 +1,4 @@
-package com.example.mytest.domain
+package com.example.tvclient.domain
 
 data class ChannelCategory(
     val id: Int,

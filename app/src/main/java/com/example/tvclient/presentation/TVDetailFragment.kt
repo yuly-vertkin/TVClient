@@ -1,4 +1,4 @@
-package com.example.mytest.presentation
+package com.example.tvclient.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,24 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.mytest.R
-import com.example.mytest.databinding.FragmentTvBinding
-import com.example.mytest.databinding.FragmentTvDetailBinding
+import androidx.fragment.app.viewModels
+import com.example.tvclient.R
+import com.example.tvclient.databinding.FragmentTvDetailBinding
 
 class TVDetailFragment : Fragment() {
-    companion object {
-        const val NAME = "name"
-    }
 
-    private var name: String = ""
     private lateinit var binding: FragmentTvDetailBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            name = it.getString(NAME) ?: "none"
-        }
-    }
+    private val viewModel: TvDetailViewModeL by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
         binding = FragmentTvDetailBinding.inflate(inflater)
@@ -33,6 +23,7 @@ class TVDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<TextView>(R.id.detail).text = name
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 }

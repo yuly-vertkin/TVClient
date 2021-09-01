@@ -1,33 +1,30 @@
-package com.example.mytest.presentation
+package com.example.tvclient.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.example.mytest.data.Response
-import com.example.mytest.domain.ChannelCategoriesUseCase
-import com.example.mytest.domain.ChannelCategory
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
+import com.example.tvclient.data.Response
+import com.example.tvclient.domain.ChannelCategoriesUseCase
+import com.example.tvclient.domain.ChannelCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @HiltViewModel
-class TVClientViewModel @Inject constructor(private val channelCategoriesUseCase: ChannelCategoriesUseCase) : ViewModel() {
+class TVClientViewModel @Inject constructor(
+    private val channelCategoriesUseCase: ChannelCategoriesUseCase
+    ) : ViewModel() {
 
-    val channelCategoryList: LiveData<Response<List<ChannelCategory>>> = liveData {
-        channelCategoriesUseCase.getChannelCategoryList().collect {
-            emit(it)
+    private val channelCategoryList: LiveData<Response<List<ChannelCategory>>> =
+        channelCategoriesUseCase.getChannelCategoryList().asLiveData()
+
+    val items: LiveData<List<ChannelCategory>> = channelCategoryList.map {
+        when(it) {
+            is Response.Success -> it.data
+            else -> emptyList()
         }
     }
 
-
-//    val channelCategoryList: LiveData<Response<List<ChannelCategory>>> = liveData {
-//        val res = channelCategoriesUseCase.getChannelCategoryList()
-//        emit(res)
-//    }
-
-//    val channelCategoryList: LiveData<Response<List<ChannelCategory>>> = liveData {
-//        val res = ChannelCategoriesUseCase(Repository(MwDataSource(MwApi()))).getChannelCategoryList()
-//        emit(res)
-//    }
+    val isLoading: LiveData<Boolean> = channelCategoryList.map { it is Response.Loading }
 }
 

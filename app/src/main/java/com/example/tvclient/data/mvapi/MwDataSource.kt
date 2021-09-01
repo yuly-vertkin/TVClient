@@ -1,11 +1,11 @@
-package com.example.mytest.data.mvapi
+package com.example.tvclient.data.mvapi
 
-import com.example.mytest.data.DataSource
-import com.example.mytest.data.Response
-import com.example.mytest.domain.ChannelCategory
+import com.example.tvclient.data.RemoteDataSource
+import com.example.tvclient.data.Response
+import com.example.tvclient.domain.ChannelCategory
 import javax.inject.Inject
 
-class MwDataSource @Inject constructor(private val mwApi: MwApi) : DataSource {
+class MwDataSource @Inject constructor(private val mwApi: MwApi) : RemoteDataSource {
     override suspend fun getChannelCategoryList() = mwApi.getChannelCategoryList().convert {
         map {
             ChannelCategory(it.id, it.name)

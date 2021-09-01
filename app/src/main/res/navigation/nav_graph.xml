@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splash_fragment"
-        android:name="com.example.mytest.presentation.SplashFragment"
+        android:name="com.example.tvclient.presentation.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/tv_fragment"
-        android:name="com.example.mytest.presentation.TVFragment"
+        android:name="com.example.tvclient.presentation.TVFragment"
         android:label="TV"
         tools:layout="@layout/fragment_tv" >
         <action
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/tv_detail_fragment"
-        android:name="com.example.mytest.presentation.TVDetailFragment"
+        android:name="com.example.tvclient.presentation.TVDetailFragment"
         android:label="TV Detail"
         tools:layout="@layout/fragment_tv_detail" />
 </navigation>

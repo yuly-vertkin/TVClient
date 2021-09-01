@@ -1,4 +1,4 @@
-package com.example.mytest.data.mvapi
+package com.example.tvclient.data.mvapi
 
 data class ChannelCategoryDto(
     val id: Int,
