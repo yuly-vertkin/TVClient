@@ -1,13 +1,11 @@
 package com.example.tvclient.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
+import androidx.lifecycle.*
 import com.example.tvclient.data.Response
 import com.example.tvclient.domain.ChannelCategoriesUseCase
 import com.example.tvclient.domain.ChannelCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,5 +24,9 @@ class TVClientViewModel @Inject constructor(
     }
 
     val isLoading: LiveData<Boolean> = channelCategoryList.map { it is Response.Loading }
+
+    fun updateMaxItems(maxItems: Int) = viewModelScope.launch {
+        channelCategoriesUseCase.updateMaxItems(maxItems)
+    }
 }
 
