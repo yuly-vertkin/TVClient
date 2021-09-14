@@ -41,6 +41,7 @@ ext {
     roomVersion = '2.3.0'
     retrofitVersion = '2.9.0'
     dataStoreVersion = '1.0.0'
+    workerVersion = '2.5.0'
 
     junitVersion = '4.13.1'
     runnerVersion = '1.3.0'

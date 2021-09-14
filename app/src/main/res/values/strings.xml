@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">TVClient</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="work_manager_start">Start WorkManager</string>
+    <string name="work_manager_cancel">Cancel WorkManager</string>
 </resources>

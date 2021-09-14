@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.tvclient.presentation.TVClientViewModel" />
+            type="com.example.tvclient.presentation.TVFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

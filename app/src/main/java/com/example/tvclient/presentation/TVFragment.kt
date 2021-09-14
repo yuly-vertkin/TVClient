@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TVFragment : Fragment() {
-    private val viewModel: TVClientViewModel by viewModels()
+    private val viewModel: TVFragmentViewModel by viewModels()
     private lateinit var binding: FragmentTvBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {

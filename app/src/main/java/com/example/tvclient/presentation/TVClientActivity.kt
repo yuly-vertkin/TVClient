@@ -1,32 +1,30 @@
 package com.example.tvclient.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tvclient.R
-import com.example.tvclient.data.Response
-import com.example.tvclient.domain.ChannelCategory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
+const val TAG = "TVClientActivity"
+
 @AndroidEntryPoint
 class TVClientActivity : AppCompatActivity() {
+    private val viewModel: TVClientViewModel by viewModels()
+    private var isWorkRunning = false
+    private lateinit var workMenuItem: MenuItem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +36,7 @@ class TVClientActivity : AppCompatActivity() {
 
         val navController = findNavController(this, R.id.nav_host_fragment)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         NavigationUI.setupWithNavController(toolbar, navController)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
@@ -50,6 +49,30 @@ class TVClientActivity : AppCompatActivity() {
                 toolbar.visibility = View.VISIBLE
                 bottomNavigationView.visibility = View.VISIBLE
             }
+        }
+
+        viewModel.isWorkRuning.observe(this) {
+            isWorkRunning = it
+            workMenuItem.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
+            workMenuItem.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
+            Log.d(TAG, "observer isWorkRunning: $isWorkRunning")
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        workMenuItem = menu!!.findItem(R.id.work_manager)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.work_manager -> {
+                viewModel.startStopWorker(isWorkRunning)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
