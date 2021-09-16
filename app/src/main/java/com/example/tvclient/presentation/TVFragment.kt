@@ -8,9 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.tvclient.R
 import com.example.tvclient.databinding.FragmentTvBinding
 import com.example.tvclient.databinding.ItemListBinding
@@ -19,15 +17,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TVFragment : Fragment() {
-    private val viewModel: TVFragmentViewModel by viewModels()
+    private val tvViewModel: TVFragmentViewModel by viewModels()
     private lateinit var binding: FragmentTvBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
         binding = FragmentTvBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.list.adapter = TVListAdapter()
-        return binding.root
+        with(binding) {
+            lifecycleOwner = this@TVFragment
+            viewModel = tvViewModel
+            list.adapter = TVListAdapter()
+            return root
+        }
     }
 }
 

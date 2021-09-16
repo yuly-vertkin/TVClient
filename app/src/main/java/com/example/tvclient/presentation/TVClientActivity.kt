@@ -23,7 +23,6 @@ const val TAG = "TVClientActivity"
 class TVClientActivity : AppCompatActivity() {
     private val viewModel: TVClientViewModel by viewModels()
     private var isWorkRunning = false
-    private lateinit var workMenuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +52,8 @@ class TVClientActivity : AppCompatActivity() {
 
         viewModel.isWorkRuning.observe(this) {
             isWorkRunning = it
-            workMenuItem.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
-            workMenuItem.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
+            viewModel.workMenuItem.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
+            viewModel.workMenuItem.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
             Log.d(TAG, "observer isWorkRunning: $isWorkRunning")
         }
     }
@@ -62,7 +61,7 @@ class TVClientActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
-        workMenuItem = menu!!.findItem(R.id.work_manager)
+        viewModel.workMenuItem = menu!!.findItem(R.id.work_manager)
         return true
     }
 

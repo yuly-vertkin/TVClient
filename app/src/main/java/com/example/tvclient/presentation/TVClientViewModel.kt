@@ -1,6 +1,7 @@
 package com.example.tvclient.presentation
 
 import android.util.Log
+import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
@@ -19,6 +20,7 @@ const val MY_WORK_TAG = "MY_WORK_TAG"
 class TVClientViewModel @Inject constructor(
     private val workManager: WorkManager
     ) : ViewModel() {
+    lateinit var workMenuItem: MenuItem
 
     val isWorkRuning: LiveData<Boolean> =
         workManager.getWorkInfosByTagLiveData(MY_WORK_TAG)
