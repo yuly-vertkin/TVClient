@@ -17,7 +17,7 @@ import com.example.tvclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
-const val TAG = "TVClientActivity"
+private const val TAG = "TVClientActivity"
 
 @AndroidEntryPoint
 class TVClientActivity : AppCompatActivity() {
@@ -52,17 +52,22 @@ class TVClientActivity : AppCompatActivity() {
 
         viewModel.isWorkRuning.observe(this) {
             isWorkRunning = it
-            viewModel.workMenuItem.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
-            viewModel.workMenuItem.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
             Log.d(TAG, "observer isWorkRunning: $isWorkRunning")
+            invalidateOptionsMenu()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
-        viewModel.workMenuItem = menu!!.findItem(R.id.work_manager)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val item = menu!!.findItem(R.id.work_manager)
+        item.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
+        item.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

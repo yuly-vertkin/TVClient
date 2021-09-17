@@ -3,4 +3,8 @@
     <string name="work_manager_start">Start WorkManager</string>
     <string name="work_manager_cancel">Cancel WorkManager</string>
     <string name="layout_manager">androidx.recyclerview.widget.LinearLayoutManager</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_text">Text</string>
 </resources>

@@ -13,6 +13,7 @@ import com.example.tvclient.workers.WORKER_DATA_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+private const val TAG = "TVClientViewModel"
 const val MY_WORK_NAME = "MY_WORK_NAME"
 const val MY_WORK_TAG = "MY_WORK_TAG"
 
@@ -20,7 +21,6 @@ const val MY_WORK_TAG = "MY_WORK_TAG"
 class TVClientViewModel @Inject constructor(
     private val workManager: WorkManager
     ) : ViewModel() {
-    lateinit var workMenuItem: MenuItem
 
     val isWorkRuning: LiveData<Boolean> =
         workManager.getWorkInfosByTagLiveData(MY_WORK_TAG)
