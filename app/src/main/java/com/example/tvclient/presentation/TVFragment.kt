@@ -70,8 +70,11 @@ class TVListAdapter : ListAdapter<ChannelCategory, VH>(DiffCalback) {
         val item = getItem(position)
         holder.bind(item)
         holder.itemView.setOnClickListener { view ->
-            val bundle = bundleOf(TvDetailViewModeL.NAME to item.name)
-            view.findNavController().navigate(R.id.action_TVFragment_to_TVDetailFragment, bundle)
+            val action = TVFragmentDirections.nextAction(item.name)
+            view.findNavController().navigate(action)
+// without safe args
+//            val bundle = bundleOf(TvDetailViewModeL.NAME to item.name)
+//            view.findNavController().navigate(R.id.action_TVFragment_to_TVDetailFragment, bundle)
         }
     }
 }

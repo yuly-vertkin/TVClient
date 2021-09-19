@@ -25,7 +25,7 @@
         android:label="TV"
         tools:layout="@layout/fragment_tv" >
         <action
-            android:id="@+id/action_TVFragment_to_TVDetailFragment"
+            android:id="@+id/next_action"
             app:destination="@id/tv_detail_fragment" />
     </fragment>
 
@@ -33,5 +33,11 @@
         android:id="@+id/tv_detail_fragment"
         android:name="com.example.tvclient.presentation.TVDetailFragment"
         android:label="TV Detail"
-        tools:layout="@layout/fragment_tv_detail" />
+        tools:layout="@layout/fragment_tv_detail" >
+        <argument android:name="name"
+            android:defaultValue="" />
+
+        <deepLink app:uri="try3.mediastage.tv/Subscriber/openAPI/{name}" />
+    </fragment>
+
 </navigation>

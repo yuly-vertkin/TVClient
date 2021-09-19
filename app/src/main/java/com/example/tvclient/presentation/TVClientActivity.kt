@@ -28,10 +28,12 @@ class TVClientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findNavController(R.id.nav_host_fragment).navigate(R.id.splash_fragment)
-        Handler().postDelayed({
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_tv_fragment)
-        }, 3000)
+        if (intent?.action == "android.intent.action.MAIN") {
+            findNavController(R.id.nav_host_fragment).navigate(R.id.splash_fragment)
+            Handler().postDelayed({
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_tv_fragment)
+            }, 3000)
+        }
 
         val navController = findNavController(this, R.id.nav_host_fragment)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
