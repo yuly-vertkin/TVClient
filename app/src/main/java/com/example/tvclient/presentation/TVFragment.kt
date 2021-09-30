@@ -5,13 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.*
-import com.example.tvclient.R
 import com.example.tvclient.databinding.FragmentTvBinding
 import com.example.tvclient.databinding.ItemListBinding
 import com.example.tvclient.domain.ChannelCategory
