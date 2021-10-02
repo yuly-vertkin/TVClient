@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <declare-styleable name="Theme.TVClient">
+        <attr name="dialogButtonColor" format="color" />
+    </declare-styleable>
+
     <!-- Base application theme. -->
-    <style name="Theme.tvclient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TVClient.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/windowBackground</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -16,7 +21,12 @@
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationStyle</item>
 
+        <item name="dialogButtonColor">@color/purple_200</item>
+        <item name="materialButtonStyle">?attr/materialButtonOutlinedStyle</item>
+<!--        <item name="materialButtonStyle">@style/Widget.MyApp.Button</item>-->
     </style>
+
+    <style name="Theme.TVClient" parent="Theme.TVClient.Base" />
 
     <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
         <item name="labelVisibilityMode">labeled</item>
@@ -26,4 +36,12 @@
         <item name="android:elevation">4dp</item>
     </style>
 
+    <style name="Widget.MyApp.Button" parent="Widget.MaterialComponents.Button">
+<!--        <item name="materialButtonStyle">?attr/materialButtonOutlinedStyle</item>-->
+        <item name="backgroundTint">?attr/dialogButtonColor</item>
+    </style>
+
+    <style name="Theme.TVClient.DialogStyle">
+        <item name="materialButtonStyle">?attr/materialButtonOutlinedStyle</item>
+    </style>
 </resources>
