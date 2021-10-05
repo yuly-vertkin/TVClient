@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TVClient</string>
+    <string name="notif_desc">Notification description</string>
     <string name="work_manager_start">Start WorkManager</string>
     <string name="work_manager_cancel">Cancel WorkManager</string>
     <string name="layout_manager">androidx.recyclerview.widget.LinearLayoutManager</string>

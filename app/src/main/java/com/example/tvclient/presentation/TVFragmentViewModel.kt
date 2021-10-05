@@ -1,6 +1,8 @@
 package com.example.tvclient.presentation
 
+import android.view.View
 import androidx.lifecycle.*
+import androidx.navigation.findNavController
 import com.example.tvclient.data.Response
 import com.example.tvclient.domain.ChannelCategoriesUseCase
 import com.example.tvclient.domain.ChannelCategory
@@ -24,6 +26,14 @@ class TVFragmentViewModel @Inject constructor(
     }
 
     val isLoading: LiveData<Boolean> = channelCategoryList.map { it is Response.Loading }
+
+    fun onClick(view: View, name: String) {
+        val action = TVFragmentDirections.nextAction(name)
+        view.findNavController().navigate(action)
+// without safe args
+//        val bundle = bundleOf(TvDetailViewModeL.NAME to name)
+//        view.findNavController().navigate(R.id.action_TVFragment_to_TVDetailFragment, bundle)
+    }
 
     fun updateMaxItems(maxItems: Int) = viewModelScope.launch {
         channelCategoriesUseCase.updateMaxItems(maxItems)

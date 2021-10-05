@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.*
 import com.example.tvclient.databinding.FragmentTvBinding
 import com.example.tvclient.databinding.ItemListBinding
@@ -36,20 +35,13 @@ class TVFragment : Fragment() {
         with(binding) {
             lifecycleOwner = this@TVFragment
             viewModel = tvViewModel
-            list.adapter = TVListAdapter()
+            list.adapter = TVListAdapter { tvViewModel.onClick(root, it) }
             return root
         }
     }
 }
 
-class VH(private val itemBinding: ItemListBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-    fun bind(item: ChannelCategory) {
-        itemBinding.name = item.name
-        itemBinding.executePendingBindings()
-    }
-}
-
-class TVListAdapter : ListAdapter<ChannelCategory, VH>(DiffCalback) {
+class TVListAdapter(val clickListener: (String) -> Unit) : ListAdapter<ChannelCategory, TVListAdapter.VH>(DiffCalback) {
         object DiffCalback : DiffUtil.ItemCallback<ChannelCategory>() {
             override fun areItemsTheSame(oldItem: ChannelCategory, newItem: ChannelCategory): Boolean {
                 return oldItem.id == newItem.id
@@ -60,19 +52,20 @@ class TVListAdapter : ListAdapter<ChannelCategory, VH>(DiffCalback) {
             }
         }
 
+    class VH(private val itemBinding: ItemListBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(item: ChannelCategory, clickListener: (name: String) -> Unit) {
+            itemBinding.name = item.name
+            itemBinding.executePendingBindings()
+            itemView.setOnClickListener { clickListener(item.name) }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(ItemListBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
-        holder.itemView.setOnClickListener { view ->
-            val action = TVFragmentDirections.nextAction(item.name)
-            view.findNavController().navigate(action)
-// without safe args
-//            val bundle = bundleOf(TvDetailViewModeL.NAME to item.name)
-//            view.findNavController().navigate(R.id.action_TVFragment_to_TVDetailFragment, bundle)
-        }
+        holder.bind(item, clickListener)
     }
 }
