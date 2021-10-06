@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.NotificationCompat
@@ -50,6 +51,15 @@ class TVDetailFragment : Fragment() {
 //                Log.d(TAG,"OK pressed")
 //            }
         }
+
+//        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item = menu.findItem(R.id.action_search)
+        item.isVisible = false
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onDestroyView() {

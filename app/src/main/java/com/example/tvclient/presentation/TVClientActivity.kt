@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
@@ -22,6 +22,7 @@ private const val TAG = "TVClientActivity"
 @AndroidEntryPoint
 class TVClientActivity : AppCompatActivity() {
     private val viewModel: TVClientViewModel by viewModels()
+    var toolbar: Toolbar? = null
     private var isWorkRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,18 +37,18 @@ class TVClientActivity : AppCompatActivity() {
         }
 
         val navController = findNavController(this, R.id.nav_host_fragment)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        NavigationUI.setupWithNavController(toolbar, navController)
+        NavigationUI.setupWithNavController(toolbar!!, navController)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id == R.id.splash_fragment) {
-                toolbar.visibility = View.GONE
+                toolbar?.visibility = View.GONE
                 bottomNavigationView.visibility = View.GONE
             } else {
-                toolbar.visibility = View.VISIBLE
+                toolbar?.visibility = View.VISIBLE
                 bottomNavigationView.visibility = View.VISIBLE
             }
         }
@@ -60,15 +61,22 @@ class TVClientActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_main, menu)
-        return true
+        menuInflater.inflate(R.menu.menu_main, menu)
+
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+
+        searchView?.let {
+        }
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val item = menu!!.findItem(R.id.work_manager)
         item.title = getString(if (isWorkRunning) R.string.work_manager_cancel else R.string.work_manager_start)
         item.icon = getDrawable(if (isWorkRunning) R.drawable.ic_work_manager_off else R.drawable.ic_work_manager)
+
         return super.onPrepareOptionsMenu(menu)
     }
 
