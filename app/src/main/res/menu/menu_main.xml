@@ -13,4 +13,9 @@
         android:title="@string/work_manager_start"
         android:icon="@drawable/ic_work_manager"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_refresh"
+        android:title="@string/menu_refresh"
+        app:showAsAction="never" />
 </menu>

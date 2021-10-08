@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -43,13 +44,13 @@ class TVDetailFragment : Fragment() {
             // show notification
             showNotification()
             // or show simple dialog
-//            SimpleDialog.show( this@TVDetailFragment,
-//                titleId = R.string.dialog_title,
-//                textId = R.string.dialog_text,
-//                onCancelClick = { Log.d(TAG,"Cancel pressed") }
-//            ) {
-//                Log.d(TAG,"OK pressed")
-//            }
+            SimpleDialog.show( this@TVDetailFragment,
+                titleId = R.string.dialog_title,
+                textId = R.string.dialog_text,
+                onCancelClick = { Log.d(TAG,"Cancel pressed") }
+            ) {
+                Log.d(TAG,"OK pressed")
+            }
         }
 
 //        (requireActivity() as AppCompatActivity).supportActionBar?.hide()

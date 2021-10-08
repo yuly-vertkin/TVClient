@@ -3,6 +3,7 @@ package com.example.tvclient.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.example.tvclient.R
 import com.example.tvclient.databinding.FragmentTvBinding
@@ -18,6 +20,8 @@ import com.example.tvclient.databinding.ItemListBinding
 import com.example.tvclient.domain.ChannelCategory
 import com.example.tvclient.extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val TAG = "TVClientFragment"
 
@@ -41,6 +45,7 @@ class TVFragment : Fragment() {
             lifecycleOwner = this@TVFragment
             viewModel = tvViewModel
             list.adapter = TVListAdapter { tvViewModel.onClick(root, it) }
+            swipeRefresh.setOnRefreshListener { updateList() }
             return root
         }
     }
@@ -49,8 +54,27 @@ class TVFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         findSearchView()?.let(::setupSearchView)
+        setHasOptionsMenu(true)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.menu_refresh -> {
+                binding.swipeRefresh.isRefreshing = true
+                updateList()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun updateList() {
+        lifecycleScope.launch {
+            tvViewModel.update()
+            delay(3000)
+            binding.swipeRefresh.isRefreshing = false
+        }
+    }
 
     private fun findSearchView(): SearchView? {
         return (requireActivity() as TVClientActivity).toolbar?.menu

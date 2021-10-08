@@ -20,16 +20,20 @@ abstract class Repository<T> {
 
             val curTime = System.currentTimeMillis()
             if (curTime - updateTime > FRESH_TIMEOUT) {
-                val res = remoteData()
-                if (res is Response.Success) {
-                    updateLocalData(res.data)
-                    updateTime = curTime
-                }
+                updateData()
             }
             localData().collect {
                 emit(Response.Success(it))
             }
         }
+
+    suspend fun updateData() {
+        val res = remoteData()
+        if (res is Response.Success) {
+            updateLocalData(res.data)
+            updateTime = System.currentTimeMillis()
+        }
+    }
 
     companion object {
         private val FRESH_TIMEOUT = TimeUnit.HOURS.toMillis(1)  // an hour

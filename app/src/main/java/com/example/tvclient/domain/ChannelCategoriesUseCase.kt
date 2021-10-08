@@ -25,6 +25,10 @@ class ChannelCategoriesUseCase @Inject constructor(
             }
         }
 
+    suspend fun updateData() {
+        repository.updateData()
+    }
+
     suspend fun updateMaxItems(maxItems: Int) =
         userPrefRepository.updateMaxItems(maxItems)
 }

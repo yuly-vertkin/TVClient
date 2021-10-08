@@ -38,5 +38,9 @@ class TVFragmentViewModel @Inject constructor(
     fun updateMaxItems(maxItems: Int) = viewModelScope.launch {
         channelCategoriesUseCase.updateMaxItems(maxItems)
     }
+
+    suspend fun update() {
+        channelCategoriesUseCase.updateData()
+    }
 }
 

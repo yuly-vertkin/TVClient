@@ -14,21 +14,27 @@
         android:layout_height="match_parent"
         tools:context=".TVFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            app:listData="@{viewModel.items}"
-            app:layoutManager="@string/layout_manager"
-            app:spanCount="3"
-            app:divider="@{@drawable/ic_divider}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                app:listData="@{viewModel.items}"
+                app:layoutManager="@string/layout_manager"
+                app:spanCount="3"
+                app:divider="@{@drawable/ic_divider}" />
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progress"
