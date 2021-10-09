@@ -1,5 +1,6 @@
 package com.example.tvclient.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.*
 import com.example.tvclient.R
 import com.example.tvclient.databinding.FragmentTvBinding
@@ -37,6 +39,10 @@ class TVFragment : Fragment() {
             val result = bundle.getString(TV_DETAIL_RESULT_KEY)
             Log.d(TAG, "TVDetailFragment result: $result")
         }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        val maxItems = sharedPreferences.getString(getString(R.string.max_items_key), "")?.toInt() ?: Int.MAX_VALUE
+        tvViewModel.updateMaxItems(maxItems)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {

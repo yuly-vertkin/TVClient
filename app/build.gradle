@@ -59,6 +59,7 @@ dependencies {
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.cardview:cardview:$cardViewVersion"
+    implementation "androidx.preference:preference-ktx:$preferenceVersion"
 
     // kotlin
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"

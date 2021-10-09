@@ -1,12 +1,14 @@
 package com.example.tvclient.presentation
 
+import android.app.Activity
 import android.util.Log
-import android.view.MenuItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
+import androidx.navigation.findNavController
 import androidx.work.*
+import com.example.tvclient.R
 import com.example.tvclient.extensions.applyNotNulNorEmpty
 import com.example.tvclient.workers.MyWorker
 import com.example.tvclient.workers.WORKER_DATA_KEY
@@ -65,6 +67,11 @@ class TVClientViewModel @Inject constructor(
         return Data.Builder()
             .putInt(WORKER_DATA_KEY, 1)
             .build()
+    }
+
+    fun showSettings(activity: Activity) {
+        val action = TVFragmentDirections.settingsAction()
+        activity.findNavController(R.id.nav_host_fragment).navigate(action)
     }
 }
 

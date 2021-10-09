@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="@string/max_items_category_key"
+        app:title="@string/max_items_category">
+
+        <SwitchPreferenceCompat
+            app:key="@string/max_items_switch_key"
+            app:title="@string/max_items_switch" />
+
+        <EditTextPreference
+            app:key="@string/max_items_key"
+            app:title="@string/max_items"
+            app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

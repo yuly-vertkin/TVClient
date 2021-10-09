@@ -86,6 +86,10 @@ class TVClientActivity : AppCompatActivity() {
                 viewModel.startStopWorker(isWorkRunning)
                 true
             }
+            R.id.menu_settings -> {
+                viewModel.showSettings(this)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
