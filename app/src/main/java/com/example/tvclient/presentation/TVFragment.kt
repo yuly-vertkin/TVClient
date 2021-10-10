@@ -41,7 +41,8 @@ class TVFragment : Fragment() {
         }
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
-        val maxItems = sharedPreferences.getString(getString(R.string.max_items_key), "")?.toInt() ?: Int.MAX_VALUE
+        val maxItemsStr = sharedPreferences.getString(getString(R.string.max_items_key), "")
+        val maxItems = if (!maxItemsStr.isNullOrEmpty()) maxItemsStr.toInt() else Int.MAX_VALUE
         tvViewModel.updateMaxItems(maxItems)
     }
 

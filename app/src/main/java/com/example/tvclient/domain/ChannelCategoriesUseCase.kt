@@ -17,7 +17,6 @@ class ChannelCategoriesUseCase @Inject constructor(
             repository.getData(),
             userPrefRepository.userPreferences
         ) { itemsRes: Response<List<ChannelCategory>>, userPreferences: UserPreferences ->
-//            updateMaxItems(5)
             if (itemsRes is Response.Success) {
                 Response.Success(itemsRes.data.take(userPreferences.maxItems))
             } else {
