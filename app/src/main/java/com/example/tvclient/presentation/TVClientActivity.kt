@@ -1,20 +1,25 @@
 package com.example.tvclient.presentation
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.tvclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "TVClientActivity"
@@ -24,6 +29,7 @@ class TVClientActivity : AppCompatActivity() {
     private val viewModel: TVClientViewModel by viewModels()
     var toolbar: Toolbar? = null
     private var isWorkRunning = false
+    private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { onRequestPermission(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +96,48 @@ class TVClientActivity : AppCompatActivity() {
                 viewModel.showSettings(this)
                 true
             }
+            R.id.menu_permission -> {
+                getPermission()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun getPermission() {
+        if (!applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            onRequestPermission(isGranted = false, noFeature = true)
+            return
+        }
+
+        when {
+            ContextCompat.checkSelfPermission(applicationContext, NEEDED_PERMISSION) ==
+                    PackageManager.PERMISSION_GRANTED -> onRequestPermission(true)
+
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    shouldShowRequestPermissionRationale(NEEDED_PERMISSION) -> onPermissionRationale()
+
+            else -> requestPermissionLauncher.launch(NEEDED_PERMISSION)
+        }
+    }
+
+    private fun onPermissionRationale() {
+        SimpleDialog.show( this,
+            titleId = R.string.dialog_permission_title,
+            textId = R.string.dialog_permission_text,
+            onCancelClick = { onRequestPermission(false) }
+        ) {
+            requestPermissionLauncher.launch(NEEDED_PERMISSION)
+        }
+    }
+
+    private fun onRequestPermission(isGranted: Boolean, noFeature: Boolean = false) {
+        val rootView = window.decorView.rootView
+
+        when {
+            noFeature -> Snackbar.make(rootView, "No camera", Snackbar.LENGTH_LONG).show()
+            isGranted -> Snackbar.make(rootView, "Permission granted", Snackbar.LENGTH_LONG).show()
+            else -> Snackbar.make(rootView, "Permission denied", Snackbar.LENGTH_LONG).show()
         }
     }
 }

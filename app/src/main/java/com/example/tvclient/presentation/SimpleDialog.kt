@@ -1,11 +1,13 @@
 package com.example.tvclient.presentation
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -46,6 +48,24 @@ class SimpleDialog : AppCompatDialogFragment() {
         private const val TEXT_KEY = "text"
         private const val OK_BUTTON = "ok"
         private const val CANCEL_BUTTON = "cancel"
+
+        fun show(activity: AppCompatActivity, titleId: Int, textId: Int,
+                 okId: Int = R.string.ok_button, cancelId: Int = R.string.cancel_button,
+                 onCancelClick: (() -> Unit)? = null, onOkClick: () -> Unit) {
+            val fragmentManager = activity.supportFragmentManager
+            SimpleDialog().apply {
+                arguments = bundleOf(TITLE_KEY to titleId, TEXT_KEY to textId, OK_BUTTON to okId, CANCEL_BUTTON to cancelId)
+            }.show(fragmentManager, null)
+
+            fragmentManager.setFragmentResultListener(SIMPLE_DIALOG_REQUEST_KEY, activity) { requestKey, bundle ->
+                val isOk = bundle.getBoolean(SIMPLE_DIALOG_RESULT_KEY)
+                if (isOk) {
+                    onOkClick()
+                } else onCancelClick?.let {
+                    it()
+                }
+            }
+        }
 
         fun show(fragment: Fragment, titleId: Int, textId: Int,
                  okId: Int = R.string.ok_button, cancelId: Int = R.string.cancel_button,

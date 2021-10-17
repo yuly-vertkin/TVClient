@@ -4,6 +4,7 @@
     <string name="action_search">Search</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_permission">Get permission</string>
     <string name="work_manager_start">Start WorkManager</string>
     <string name="work_manager_cancel">Cancel WorkManager</string>
     <string name="layout_manager">androidx.recyclerview.widget.LinearLayoutManager</string>
@@ -11,6 +12,8 @@
     <string name="cancel_button">Cancel</string>
     <string name="dialog_title">Title</string>
     <string name="dialog_text">Text</string>
+    <string name="dialog_permission_title">Title permission</string>
+    <string name="dialog_permission_text">We need this permission</string>
 
     <string name="max_items_category_key">max_items_category</string>
     <string name="max_items_category">Max items category</string>
