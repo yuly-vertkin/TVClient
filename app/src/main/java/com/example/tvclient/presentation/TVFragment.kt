@@ -1,12 +1,8 @@
 package com.example.tvclient.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.widget.SearchView
@@ -60,8 +56,14 @@ class TVFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        findSearchView()?.let(::setupSearchView)
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        val item = menu.findItem(R.id.action_search).actionView as SearchView
+        setupSearchView(item)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -83,10 +85,10 @@ class TVFragment : Fragment() {
         }
     }
 
-    private fun findSearchView(): SearchView? {
-        return (requireActivity() as TVClientActivity).toolbar?.menu
-            ?.findItem(R.id.action_search)?.actionView as? SearchView
-    }
+//    private fun findSearchView(): SearchView? {
+//        return (requireActivity() as TVClientActivity).toolbar?.menu
+//            ?.findItem(R.id.action_search)?.actionView as? SearchView
+//    }
 
     private fun setupSearchView(searchView: SearchView) {
         searchView.setIconifiedByDefault(false)

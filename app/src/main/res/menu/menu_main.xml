@@ -8,6 +8,17 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
+    <item android:id="@+id/action_share"
+        android:title="@string/action_share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="ifRoom" />
+
+<!--  use ShareActionProvider -->
+<!--    <item android:id="@+id/action_share"-->
+<!--        android:title="@string/action_share"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider" />-->
+
     <item
         android:id="@+id/work_manager"
         android:title="@string/work_manager_start"

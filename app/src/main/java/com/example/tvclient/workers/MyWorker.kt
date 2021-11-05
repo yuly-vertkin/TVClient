@@ -10,7 +10,7 @@ class MyWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
         val appContext = applicationContext
         val inputData = inputData.getInt(WORKER_DATA_KEY, 0)
 
-//        makeStatusNotification("MyWorker$inputData", appContext)
+        makeStatusNotification("MyWorker$inputData", appContext)
         sleep()
 
         val outputData = workDataOf(WORKER_DATA_KEY to inputData + 1)

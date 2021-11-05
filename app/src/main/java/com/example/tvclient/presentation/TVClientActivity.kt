@@ -1,6 +1,10 @@
 package com.example.tvclient.presentation
 
+import android.app.PendingIntent
+import android.content.*
+import android.content.Intent.EXTRA_CHOSEN_COMPONENT
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.ShareActionProvider
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
@@ -21,6 +26,9 @@ import com.example.tvclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.view.MenuItemCompat
+import java.io.File
+
 
 private const val TAG = "TVClientActivity"
 
@@ -69,11 +77,9 @@ class TVClientActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
 
-        val searchItem = menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
-
-        searchView?.let {
-        }
+//        For ShareActionProvider
+//        val shareItem = menu.findItem(R.id.action_share)
+//        withShareActionProvider(shareItem)
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -100,9 +106,33 @@ class TVClientActivity : AppCompatActivity() {
                 getPermission()
                 true
             }
+            R.id.action_share -> shareAction()
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun shareAction() : Boolean {
+        val share = Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Hello from TVClientApp")
+            putExtra(Intent.EXTRA_TITLE, "Introducing content previews")
+            type = "text/plain"
+        }, "Share to..")
+        startActivity(share)
+        return true
+    }
+
+//    private fun withShareActionProvider(shareItem: MenuItem?) {
+//        val myShareActionProvider: ShareActionProvider =
+//            MenuItemCompat.getActionProvider(shareItem) as ShareActionProvider
+//        val share = Intent().apply {
+//            action = Intent.ACTION_SEND
+//            putExtra(Intent.EXTRA_TEXT, "Hello from TVClientApp")
+//            putExtra(Intent.EXTRA_TITLE, "Introducing content previews")
+//            type = "text/plain"
+//        }
+//        myShareActionProvider.setShareIntent(share)
+//    }
 
     private fun getPermission() {
         if (!applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
