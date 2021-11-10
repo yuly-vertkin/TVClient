@@ -45,7 +45,7 @@ class TVFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
         binding = FragmentTvBinding.inflate(inflater)
         with(binding) {
-            lifecycleOwner = this@TVFragment
+            lifecycleOwner = viewLifecycleOwner//this@TVFragment
             viewModel = tvViewModel
             list.adapter = TVListAdapter { tvViewModel.onClick(root, it) }
             swipeRefresh.setOnRefreshListener { updateList() }
