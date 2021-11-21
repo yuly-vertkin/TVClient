@@ -9,13 +9,14 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class UserPreferences(val maxItems: Int)
+data class UserPreferences(val isLoggedIn: Boolean, val maxItems: Int)
 
 @Singleton
 class UserPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
     ) {
     private object PreferencesKeys {
+        val IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
         val MAX_ITEMS = intPreferencesKey("max_items")
     }
 
@@ -28,9 +29,16 @@ class UserPreferencesRepository @Inject constructor(
                 throw exception
             }
         }.map { preferences ->
+            val isLoggedIn = preferences[PreferencesKeys.IS_LOGGED_IN] ?: false
             val maxItems = preferences[PreferencesKeys.MAX_ITEMS] ?: Int.MAX_VALUE
-            UserPreferences(maxItems)
+            UserPreferences(isLoggedIn, maxItems)
         }
+
+    suspend fun updateIsLoggedIn(isLoggedIn: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.IS_LOGGED_IN] = isLoggedIn
+        }
+    }
 
     suspend fun updateMaxItems(maxItems: Int) {
         dataStore.edit { preferences ->

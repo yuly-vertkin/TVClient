@@ -27,8 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.view.MenuItemCompat
-import java.io.File
-
+import androidx.lifecycle.lifecycleScope
 
 private const val TAG = "TVClientActivity"
 
@@ -46,7 +45,11 @@ class TVClientActivity : AppCompatActivity() {
         if (intent?.action == "android.intent.action.MAIN") {
             findNavController(R.id.nav_host_fragment).navigate(R.id.splash_fragment)
             Handler().postDelayed({
-                findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_tv_fragment)
+                viewModel.isLoggedIn.observe(this@TVClientActivity) { isLoggedIn ->
+                    val action = if(isLoggedIn) R.id.tv_fragment_action //R.id.action_splashFragment_to_tv_fragment
+                                 else R.id.action_splashFragment_fragment_to_loginFragment
+                    findNavController(R.id.nav_host_fragment).navigate(action)
+                }
             }, 3000)
         }
 

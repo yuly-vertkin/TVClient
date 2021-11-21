@@ -28,6 +28,12 @@ class ChannelCategoriesUseCase @Inject constructor(
         repository.updateData()
     }
 
+    fun getUserPreferences(): Flow<UserPreferences> =
+        userPrefRepository.userPreferences
+
+    suspend fun updateIsLoggedIn(isLoggedIn: Boolean) =
+        userPrefRepository.updateIsLoggedIn(isLoggedIn)
+
     suspend fun updateMaxItems(maxItems: Int) =
         userPrefRepository.updateMaxItems(maxItems)
 }

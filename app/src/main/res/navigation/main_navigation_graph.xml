@@ -2,21 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/tv_fragment">
+
+    <include app:graph="@navigation/login_navigation_graph" />
 
     <fragment
         android:id="@+id/splash_fragment"
         android:name="com.example.tvclient.presentation.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
+
         <action
-            android:id="@+id/action_splashFragment_to_tv_fragment"
-            app:destination="@id/tv_fragment"
+            android:id="@+id/action_splashFragment_fragment_to_loginFragment"
+            app:destination="@id/login_nav_graph"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -43,11 +44,20 @@
     <fragment
         android:id="@+id/settings_fragment"
         android:name="com.example.tvclient.presentation.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+    </fragment>
 
 <!--  Global actions  -->
     <action
         android:id="@+id/settings_action"
         app:destination="@id/settings_fragment" />
+
+    <action
+        android:id="@+id/tv_fragment_action"
+        app:destination="@id/tv_fragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/main_nav_graph"
+        app:popUpToInclusive="true" />
 
 </navigation>
